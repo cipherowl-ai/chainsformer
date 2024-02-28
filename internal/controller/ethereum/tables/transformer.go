@@ -376,7 +376,8 @@ func transformTraces(la *xarrow.ListAppender, transaction *chainstorageapi.Ether
 				sa.AppendDecimal128(value)
 			}
 
-			sa.AppendString(trace.Input).
+			sa.AppendString(trace.Value).
+				AppendString(trace.Input).
 				AppendString(trace.Output).
 				AppendString(trace.Type).
 				AppendString(trace.TraceType).
