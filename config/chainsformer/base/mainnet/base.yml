@@ -1,0 +1,12 @@
+chain:
+  blockchain: BLOCKCHAIN_BASE
+  network: NETWORK_BASE_MAINNET
+config_name: base-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"
