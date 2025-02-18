@@ -41,13 +41,13 @@ bootstrap:
 bin:
 	@echo "--- bin"
 	mkdir -p bin
-	GOOS=linux GOARCH=arm64 go build -o bin ./$(TARGET)
+	go build -o bin ./$(TARGET)
 
 .PHONY: build-go
 build-go:
 	@echo "--- build-go"
 	mkdir -p bin
-	GOOS=linux GOARCH=arm64 go build -o bin ./$(TARGET)
+	go build -o bin ./$(TARGET)
 
 .PHONY: test
 test: fmt lint
