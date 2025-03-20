@@ -7,6 +7,7 @@
 package constant
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -16,6 +17,8 @@ const (
 	// EncodingRaw is a Encoding of type Raw.
 	EncodingRaw
 )
+
+var ErrInvalidEncoding = errors.New("not a valid Encoding")
 
 const _EncodingName = "noneraw"
 
@@ -32,6 +35,13 @@ func (x Encoding) String() string {
 	return fmt.Sprintf("Encoding(%d)", x)
 }
 
+// IsValid provides a quick way to determine if the typed value is
+// part of the allowed enumerated values
+func (x Encoding) IsValid() bool {
+	_, ok := _EncodingMap[x]
+	return ok
+}
+
 var _EncodingValue = map[string]Encoding{
 	_EncodingName[0:4]: EncodingNone,
 	_EncodingName[4:7]: EncodingRaw,
@@ -42,7 +52,7 @@ func ParseEncoding(name string) (Encoding, error) {
 	if x, ok := _EncodingValue[name]; ok {
 		return x, nil
 	}
-	return Encoding(0), fmt.Errorf("%s is not a valid Encoding", name)
+	return Encoding(0), fmt.Errorf("%s is %w", name, ErrInvalidEncoding)
 }
 
 // MarshalText implements the text marshaller method.
@@ -68,6 +78,8 @@ const (
 	TableFormatRosetta
 )
 
+var ErrInvalidTableFormat = errors.New("not a valid TableFormat")
+
 const _TableFormatName = "nativerosetta"
 
 var _TableFormatMap = map[TableFormat]string{
@@ -83,6 +95,13 @@ func (x TableFormat) String() string {
 	return fmt.Sprintf("TableFormat(%d)", x)
 }
 
+// IsValid provides a quick way to determine if the typed value is
+// part of the allowed enumerated values
+func (x TableFormat) IsValid() bool {
+	_, ok := _TableFormatMap[x]
+	return ok
+}
+
 var _TableFormatValue = map[string]TableFormat{
 	_TableFormatName[0:6]:  TableFormatNative,
 	_TableFormatName[6:13]: TableFormatRosetta,
@@ -93,7 +112,7 @@ func ParseTableFormat(name string) (TableFormat, error) {
 	if x, ok := _TableFormatValue[name]; ok {
 		return x, nil
 	}
-	return TableFormat(0), fmt.Errorf("%s is not a valid TableFormat", name)
+	return TableFormat(0), fmt.Errorf("%s is %w", name, ErrInvalidTableFormat)
 }
 
 // MarshalText implements the text marshaller method.

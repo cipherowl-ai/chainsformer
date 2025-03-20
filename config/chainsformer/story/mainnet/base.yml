@@ -1,0 +1,12 @@
+chain:
+  blockchain: BLOCKCHAIN_STORY
+  network: NETWORK_STORY_MAINNET
+config_name: story-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"
