@@ -189,6 +189,18 @@ func NewReceiptDataType(config *config.Config) arrow.DataType {
 			f.NewField("l1_fee", arrow.PrimitiveTypes.Uint64, "The amount in wei paid on L1"),
 			f.NewField("l1_fee_scalar", arrow.BinaryTypes.String, "Variable parameter that makes sure that gas costs on L1 get covered + profits"),
 		)
+	case common.Blockchain_BLOCKCHAIN_TRON:
+		commonFields = append(
+			commonFields,
+			f.NewField("fee", arrow.PrimitiveTypes.Uint64, "The total number of TRX burned in this transaction, including TRX burned for bandwidth/energy, memo fee, account activation fee, multi-signature fee and other fees"),
+			f.NewField("net_fee", arrow.PrimitiveTypes.Uint64, "The amount of TRX burned to pay for the bandwidth"),
+			f.NewField("net_usage", arrow.PrimitiveTypes.Uint64, "The amount of bandwidth consumed"),
+			f.NewField("energy_usage", arrow.PrimitiveTypes.Uint64, "The amount of energy consumed in the caller's account"),
+			f.NewField("energy_fee", arrow.PrimitiveTypes.Uint64, "The amount of TRX burned to pay for energy"),
+			f.NewField("origin_energy_usage", arrow.PrimitiveTypes.Uint64, "The amount of energy consumed in the contract deployer's account"),
+			f.NewField("energy_usage_total", arrow.PrimitiveTypes.Uint64, "The total amount of energy consumed by the transaction"),
+			f.NewField("energy_penalty_total", arrow.PrimitiveTypes.Uint64, "The amount of extra energy that needs to be paid for calling a few popular contracts"),
+		)
 	}
 
 	return f.NewStruct(
