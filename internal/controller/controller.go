@@ -30,6 +30,7 @@ type (
 func NewController(params ControllerParams) (Controller, error) {
 	switch blockchain := params.Config.Blockchain(); blockchain {
 	case common.Blockchain_BLOCKCHAIN_ARBITRUM,
+		common.Blockchain_BLOCKCHAIN_BASE,
 		common.Blockchain_BLOCKCHAIN_BSC,
 		common.Blockchain_BLOCKCHAIN_ETHEREUM,
 		common.Blockchain_BLOCKCHAIN_POLYGON,
