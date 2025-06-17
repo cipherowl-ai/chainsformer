@@ -185,4 +185,4 @@ replace github.com/gogo/protobuf v1.3.3 => github.com/gogo/protobuf v1.3.2
 
 replace github.com/ethereum/go-ethereum => github.com/ethereum-optimism/op-geth v1.101304.2
 
-replace github.com/coinbase/chainstorage => github.com/cipherowl-ai/chainstorage v0.0.0-20250212
+replace github.com/coinbase/chainstorage => github.com/cipherowl-ai/chainstorage v0.0.0-20250616
