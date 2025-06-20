@@ -336,6 +336,15 @@ func TransformReceipt(sa *xarrow.StructAppender, transaction *chainstorageapi.Et
 			AppendUint64(l1GasPrice).
 			AppendUint64(l1Fee).
 			AppendString(l1FeeScalar)
+	case common.Blockchain_BLOCKCHAIN_TRON:
+		sa.AppendUint64(receipt.GetFee()).
+			AppendUint64(receipt.GetNetFee()).
+			AppendUint64(receipt.GetNetUsage()).
+			AppendUint64(receipt.GetEnergyUsage()).
+			AppendUint64(receipt.GetEnergyFee()).
+			AppendUint64(receipt.GetOriginEnergyUsage()).
+			AppendUint64(receipt.GetEnergyUsageTotal()).
+			AppendUint64(receipt.GetEnergyPenaltyTotal())
 	}
 }
 
