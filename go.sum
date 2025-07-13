@@ -134,8 +134,8 @@ github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XL
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=
 github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e/go.mod h1:nSuG5e5PlCu98SY8svDHJxuZscDgtXS6KTTbou5AhLI=
 github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMnBNeIyt5eFwwo7qiLfzFZmjNmxjkiQlU=
-github.com/cipherowl-ai/chainstorage v0.0.1-20250618 h1:hrPNmTit5k/gG/4oQfKAt2eM4PIzoT/9IWQtQGb9tEQ=
-github.com/cipherowl-ai/chainstorage v0.0.1-20250618/go.mod h1:e395BFchl0MLUhSDaZeLDmy2gdLJzhQHrYwa/0N2s1Q=
+github.com/cipherowl-ai/chainstorage v0.0.1-20250713 h1:FI9rZg2CiACPj1ACJSwW4u0/GYU3OpuWXgdCLLJHehY=
+github.com/cipherowl-ai/chainstorage v0.0.1-20250713/go.mod h1:e395BFchl0MLUhSDaZeLDmy2gdLJzhQHrYwa/0N2s1Q=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
 github.com/coinbase/rosetta-sdk-go v0.8.9 h1:6DxoRqy+RbnzTVNjpJqpKJ4Q/Fls+h78MonigyALYaA=
