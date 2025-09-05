@@ -38,7 +38,8 @@ func NewController(params ControllerParams) (Controller, error) {
 		common.Blockchain_BLOCKCHAIN_STORY,
 		common.Blockchain_BLOCKCHAIN_OPTIMISM:
 		return params.Ethereum, nil
-	case common.Blockchain_BLOCKCHAIN_BITCOIN:
+	case common.Blockchain_BLOCKCHAIN_BITCOIN,
+		common.Blockchain_BLOCKCHAIN_BITCOINCASH:
 		return params.Bitcoin, nil
 	default:
 		return nil, xerrors.Errorf("controller is not implemented: %v", blockchain)
