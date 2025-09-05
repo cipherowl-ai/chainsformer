@@ -33,6 +33,7 @@ func NewController(params ControllerParams) (Controller, error) {
 		common.Blockchain_BLOCKCHAIN_BASE,
 		common.Blockchain_BLOCKCHAIN_BSC,
 		common.Blockchain_BLOCKCHAIN_ETHEREUM,
+		common.Blockchain_BLOCKCHAIN_ETHEREUMCLASSIC,
 		common.Blockchain_BLOCKCHAIN_POLYGON,
 		common.Blockchain_BLOCKCHAIN_TRON,
 		common.Blockchain_BLOCKCHAIN_STORY,
