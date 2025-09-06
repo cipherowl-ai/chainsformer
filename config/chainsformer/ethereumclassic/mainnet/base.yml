@@ -1,0 +1,13 @@
+chain:
+  blockchain: BLOCKCHAIN_ETHEREUMCLASSIC
+  network: NETWORK_ETHEREUMCLASSIC_MAINNET
+config_name: ethereumclassic-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"
+
