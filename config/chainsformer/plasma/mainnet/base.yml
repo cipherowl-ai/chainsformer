@@ -1,0 +1,13 @@
+chain:
+  blockchain: BLOCKCHAIN_PLASMA
+  network: NETWORK_PLASMA_MAINNET
+config_name: plasma-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"
+
