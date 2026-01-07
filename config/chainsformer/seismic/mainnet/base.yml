@@ -1,0 +1,13 @@
+chain:
+  blockchain: BLOCKCHAIN_SEISMIC
+  network: NETWORK_SEISMIC_MAINNET
+config_name: seismic-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"
+
