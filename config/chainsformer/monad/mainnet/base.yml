@@ -1,0 +1,13 @@
+chain:
+  blockchain: BLOCKCHAIN_MONAD
+  network: NETWORK_MONAD_MAINNET
+config_name: monad-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"
+
