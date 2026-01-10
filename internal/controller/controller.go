@@ -38,7 +38,10 @@ func NewController(params ControllerParams) (Controller, error) {
 		common.Blockchain_BLOCKCHAIN_POLYGON,
 		common.Blockchain_BLOCKCHAIN_TRON,
 		common.Blockchain_BLOCKCHAIN_STORY,
-		common.Blockchain_BLOCKCHAIN_OPTIMISM:
+		common.Blockchain_BLOCKCHAIN_OPTIMISM,
+		common.Blockchain_BLOCKCHAIN_ABSTRACT,
+		common.Blockchain_BLOCKCHAIN_MEGAETH,
+		common.Blockchain_BLOCKCHAIN_MONAD:
 		return params.Ethereum, nil
 	case common.Blockchain_BLOCKCHAIN_BITCOIN,
 		common.Blockchain_BLOCKCHAIN_BITCOINCASH:
