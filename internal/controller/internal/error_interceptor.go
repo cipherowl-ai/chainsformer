@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 
-	"github.com/apache/arrow/go/v10/arrow/flight"
+	"github.com/apache/arrow/go/v15/arrow/flight"
 	"golang.org/x/xerrors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

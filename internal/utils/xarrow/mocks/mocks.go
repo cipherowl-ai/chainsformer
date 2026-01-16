@@ -12,7 +12,7 @@ package xarrowmocks
 import (
 	reflect "reflect"
 
-	array "github.com/apache/arrow/go/v10/arrow/array"
+	array "github.com/apache/arrow/go/v15/arrow/array"
 	gomock "go.uber.org/mock/gomock"
 )
 

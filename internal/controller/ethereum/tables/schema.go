@@ -1,7 +1,7 @@
 package tables
 
 import (
-	"github.com/apache/arrow/go/v10/arrow"
+	"github.com/apache/arrow/go/v15/arrow"
 
 	"github.com/coinbase/chainstorage/protos/coinbase/c3/common"
 
