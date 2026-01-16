@@ -42,8 +42,6 @@ require (
 	github.com/DataDog/sketches-go v1.4.2 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/SeismicSystems/aes v0.0.0-20251119232201-ff6734fc5e0e // indirect
-	github.com/andybalholm/brotli v1.0.6 // indirect
-	github.com/apache/thrift v0.16.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bits-and-blooms/bitset v1.17.0 // indirect
 	github.com/blendle/zapdriver v1.3.1 // indirect
