@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/apache/arrow/go/v10/arrow/flight"
+	"github.com/apache/arrow/go/v15/arrow/flight"
 	"github.com/coinbase/chainstorage/sdk/services"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	"go.uber.org/fx"

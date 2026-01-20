@@ -3,7 +3,7 @@ package tables
 import (
 	"context"
 
-	"github.com/apache/arrow/go/v10/arrow/array"
+	"github.com/apache/arrow/go/v15/arrow/array"
 	"golang.org/x/xerrors"
 
 	chainstorageapi "github.com/coinbase/chainstorage/protos/coinbase/chainstorage"

@@ -4,9 +4,9 @@ import (
 	"context"
 	"math"
 
-	"github.com/apache/arrow/go/v10/arrow"
-	"github.com/apache/arrow/go/v10/arrow/array"
-	"github.com/apache/arrow/go/v10/arrow/flight"
+	"github.com/apache/arrow/go/v15/arrow"
+	"github.com/apache/arrow/go/v15/arrow/array"
+	"github.com/apache/arrow/go/v15/arrow/flight"
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/xerrors"
 

@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/apache/arrow/go/v10/arrow"
-	"github.com/apache/arrow/go/v10/arrow/flight"
-	"github.com/apache/arrow/go/v10/arrow/memory"
+	"github.com/apache/arrow/go/v15/arrow"
+	"github.com/apache/arrow/go/v15/arrow/flight"
+	"github.com/apache/arrow/go/v15/arrow/memory"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
 	"go.uber.org/zap/zaptest"

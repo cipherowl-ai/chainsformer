@@ -1,7 +1,7 @@
 package tables
 
 import (
-	"github.com/apache/arrow/go/v10/arrow/array"
+	"github.com/apache/arrow/go/v15/arrow/array"
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/xerrors"
 

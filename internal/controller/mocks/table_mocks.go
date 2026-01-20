@@ -13,8 +13,8 @@ import (
 	context "context"
 	reflect "reflect"
 
-	arrow "github.com/apache/arrow/go/v10/arrow"
-	flight "github.com/apache/arrow/go/v10/arrow/flight"
+	arrow "github.com/apache/arrow/go/v15/arrow"
+	flight "github.com/apache/arrow/go/v15/arrow/flight"
 	constant "github.com/coinbase/chainsformer/internal/controller/internal/constant"
 	xarrow "github.com/coinbase/chainsformer/internal/utils/xarrow"
 	chainsformer "github.com/coinbase/chainsformer/protos/coinbase/chainsformer"

@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	"github.com/apache/arrow/go/v10/arrow/flight"
+	"github.com/apache/arrow/go/v15/arrow/flight"
 )
 
 type ClientAuth struct{}
