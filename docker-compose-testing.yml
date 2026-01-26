@@ -2,7 +2,7 @@ version: '3'
 
 services:
   ci:
-    image: golang:1.18
+    image: golang:1.24
     network_mode: host
     volumes:
       - $PWD:/project
