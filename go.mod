@@ -1,8 +1,8 @@
 module github.com/coinbase/chainsformer
 
-go 1.23.0
+go 1.24.0
 
-toolchain go1.23.3
+toolchain go1.24.11
 
 require (
 	github.com/apache/arrow/go/v10 v10.0.1
@@ -41,6 +41,7 @@ require (
 	github.com/DataDog/go-tuf v1.0.2-0.5.2 // indirect
 	github.com/DataDog/sketches-go v1.4.2 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
+	github.com/SeismicSystems/aes v0.0.0-20251119232201-ff6734fc5e0e // indirect
 	github.com/andybalholm/brotli v1.0.6 // indirect
 	github.com/apache/thrift v0.16.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -64,7 +65,7 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/ebitengine/purego v0.5.2 // indirect
 	github.com/ethereum/c-kzg-4844 v1.0.0 // indirect
-	github.com/ethereum/go-ethereum v1.13.15 // indirect
+	github.com/ethereum/go-ethereum v1.16.7 // indirect
 	github.com/ethereum/go-verkle v0.2.2 // indirect
 	github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a // indirect
 	github.com/fatih/color v1.16.0 // indirect
@@ -160,7 +161,7 @@ require (
 	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/mod v0.22.0 // indirect
 	golang.org/x/net v0.39.0 // indirect
-	golang.org/x/sys v0.32.0 // indirect
+	golang.org/x/sys v0.36.0 // indirect
 	golang.org/x/term v0.31.0 // indirect
 	golang.org/x/text v0.24.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
@@ -177,4 +178,4 @@ replace github.com/gogo/protobuf v1.3.3 => github.com/gogo/protobuf v1.3.2
 
 replace github.com/ethereum/go-ethereum => github.com/ethereum-optimism/op-geth v1.101500.0
 
-replace github.com/coinbase/chainstorage => github.com/cipherowl-ai/chainstorage v0.0.1-20250928
+replace github.com/coinbase/chainstorage => github.com/cipherowl-ai/chainstorage v0.0.1-20260125
