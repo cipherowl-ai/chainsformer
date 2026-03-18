@@ -49,6 +49,16 @@ build-go:
 	mkdir -p bin
 	go build -o bin ./$(TARGET)
 
+.PHONY: build-go-arm
+# Cross-compile on macOS (or any host) for ARM targets.
+# Defaults to linux/arm64.
+# Output naming is the same as build-go: binaries are placed in ./bin with the default name.
+build-go-arm:
+	@echo "--- build-go-arm (linux/arm64)"
+	mkdir -p bin
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o bin ./$(TARGET)
+
+
 .PHONY: test
 test: fmt lint
 	@echo "--- test"
