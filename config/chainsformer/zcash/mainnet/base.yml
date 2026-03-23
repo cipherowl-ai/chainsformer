@@ -1,0 +1,11 @@
+chain:
+  blockchain: BLOCKCHAIN_ZCASH
+  network: NETWORK_ZCASH_MAINNET
+config_name: zcash-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+server:
+  bind_address: ":9090"
