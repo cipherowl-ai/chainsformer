@@ -54,7 +54,7 @@ require (
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/coinbase/rosetta-sdk-go/types v1.0.0 // indirect
-	github.com/consensys/gnark-crypto v0.18.0 // indirect
+	github.com/consensys/gnark-crypto v0.19.2 // indirect
 	github.com/crate-crypto/go-ipa v0.0.0-20240724233137-53bbb0ceb27a // indirect
 	github.com/crate-crypto/go-kzg-4844 v1.1.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
@@ -176,4 +176,4 @@ replace github.com/gogo/protobuf v1.3.3 => github.com/gogo/protobuf v1.3.2
 
 replace github.com/ethereum/go-ethereum => github.com/ethereum-optimism/op-geth v1.101500.0
 
-replace github.com/coinbase/chainstorage => github.com/cipherowl-ai/chainstorage v0.0.1-20260325
+replace github.com/coinbase/chainstorage => github.com/cipherowl-ai/chainstorage v0.0.1-20260402
