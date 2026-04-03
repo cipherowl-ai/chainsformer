@@ -1,0 +1,12 @@
+chain:
+  blockchain: BLOCKCHAIN_TEMPO
+  network: NETWORK_TEMPO_TESTNET
+config_name: tempo-testnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"
