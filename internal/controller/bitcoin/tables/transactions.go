@@ -35,6 +35,9 @@ func (t transactionsTable) TransformBlock(ctx context.Context, block *chainstora
 	if err != nil {
 		return xerrors.Errorf("failed to parse raw block to native block: %w", err)
 	}
+	// Raw blob is owned by the proto and already copied out by ParseNativeBlock;
+	// release it so the ~GB of JSON bytes can be GC'd before Arrow append.
+	block.Blobdata = nil
 
 	bitcoinBlock := nativeBlock.GetBitcoin()
 	if bitcoinBlock == nil {

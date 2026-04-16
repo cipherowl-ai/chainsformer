@@ -128,10 +128,13 @@ func (t *StreamTable) DoGet(ctx context.Context, cmd *api.GetFlightInfoCmd, tabl
 				return xerrors.Errorf("failed to get blocks and events: %w", err)
 			}
 
-			for _, blockAndEvent := range blockAndEvents {
+			for i, blockAndEvent := range blockAndEvents {
 				if err := t.transformer.TransformBlock(ctx, blockAndEvent, t.session.Parser(), tableWriter.RecordBuilder(), cmd.GetStreamQuery().PartitionBySize); err != nil {
 					return xerrors.Errorf("failed to process block and event: %w", err)
 				}
+				// Drop the slice's reference so the parsed block can be GC'd
+				// without waiting for the mini-batch loop to exit.
+				blockAndEvents[i] = nil
 
 				eventsWritten += 1
 				if eventsWritten >= eventsPerRecord {
