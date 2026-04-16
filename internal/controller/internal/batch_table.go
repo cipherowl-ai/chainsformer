@@ -154,7 +154,7 @@ func (t *BatchTable) DoGet(ctx context.Context, cmd *api.GetFlightInfoCmd, table
 				if err := t.transformer.TransformBlock(ctx, block, t.session.Parser(), tableWriter.RecordBuilder(), cmd.GetBatchQuery().PartitionBySize); err != nil {
 					return xerrors.Errorf("failed to process block: %w", err)
 				}
-				// Drop the slice's reference so the parsed block can be GC'd
+				// Drop the slice's reference so the block object can be GC'd
 				// without waiting for the chunk loop to exit.
 				blocks[i] = nil
 
