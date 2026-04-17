@@ -38,6 +38,9 @@ func (t blocksTable) TransformBlock(ctx context.Context, block *chainstorageapi.
 	if err != nil {
 		return xerrors.Errorf("failed to parse raw block to native block: %w", err)
 	}
+	// Raw blob is owned by the proto and already copied out by ParseNativeBlock;
+	// release it so the ~GB of JSON bytes can be GC'd before Arrow append.
+	block.Blobdata = nil
 
 	ethereumBlock := nativeBlock.GetEthereum()
 	if ethereumBlock == nil {
@@ -68,6 +71,9 @@ func (t nativeStreamedBlocksTable) TransformBlock(ctx context.Context, blockAndE
 	if err != nil {
 		return xerrors.Errorf("failed to parse raw block to native block: %w", err)
 	}
+	// Raw blob is owned by the proto and already copied out by ParseNativeBlock;
+	// release it so the ~GB of JSON bytes can be GC'd before Arrow append.
+	blockAndEvent.Block.Blobdata = nil
 
 	ethereumBlock := nativeBlock.GetEthereum()
 	if ethereumBlock == nil {

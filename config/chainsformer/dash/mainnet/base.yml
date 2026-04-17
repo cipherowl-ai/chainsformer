@@ -1,0 +1,11 @@
+chain:
+  blockchain: BLOCKCHAIN_DASH
+  network: NETWORK_DASH_MAINNET
+config_name: dash-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+server:
+  bind_address: ":9090"
