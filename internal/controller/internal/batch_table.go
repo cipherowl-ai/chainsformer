@@ -150,10 +150,13 @@ func (t *BatchTable) DoGet(ctx context.Context, cmd *api.GetFlightInfoCmd, table
 			if err != nil {
 				return xerrors.Errorf("failed to get raw blocks: %w", err)
 			}
-			for _, block := range blocks {
+			for i, block := range blocks {
 				if err := t.transformer.TransformBlock(ctx, block, t.session.Parser(), tableWriter.RecordBuilder(), cmd.GetBatchQuery().PartitionBySize); err != nil {
 					return xerrors.Errorf("failed to process block: %w", err)
 				}
+				// Drop the slice's reference so the block object can be GC'd
+				// without waiting for the chunk loop to exit.
+				blocks[i] = nil
 
 				blocksWritten += 1
 				if blocksWritten >= blocksPerRecord {
