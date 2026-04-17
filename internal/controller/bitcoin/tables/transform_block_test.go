@@ -5,9 +5,9 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/apache/arrow/go/v10/arrow"
-	"github.com/apache/arrow/go/v10/arrow/array"
-	"github.com/apache/arrow/go/v10/arrow/memory"
+	"github.com/apache/arrow/go/v15/arrow"
+	"github.com/apache/arrow/go/v15/arrow/array"
+	"github.com/apache/arrow/go/v15/arrow/memory"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
