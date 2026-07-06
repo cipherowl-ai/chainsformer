@@ -1,0 +1,12 @@
+chain:
+  blockchain: BLOCKCHAIN_ROBINHOOD
+  network: NETWORK_ROBINHOOD_MAINNET
+config_name: robinhood-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"
