@@ -59,8 +59,14 @@ func (t transactionsTable) transformTransactions(recordBuilder *array.RecordBuil
 			}).
 			AppendList(func(la *xarrow.ListAppender) {
 				transformTraces(la, transaction)
-			}).
-			AppendUint64(partition.GetPartitionByNumber(header.Number, partitionBySize)).
+			})
+
+		switch t.config.Blockchain() {
+		case common.Blockchain_BLOCKCHAIN_TRON:
+			recordAppender.AppendString(transaction.Memo)
+		}
+
+		recordAppender.AppendUint64(partition.GetPartitionByNumber(header.Number, partitionBySize)).
 			AppendUint64(header.Number).
 			Build()
 	}
@@ -177,8 +183,14 @@ func (t nativeStreamedTransactionsTable) transformStreamedTransactions(recordBui
 			}).
 			AppendList(func(la *xarrow.ListAppender) {
 				transformTraces(la, transaction)
-			}).
-			AppendUint64(partition.GetPartitionByNumber(uint64(event.GetSequenceNum()), partitionBySize)).
+			})
+
+		switch t.config.Blockchain() {
+		case common.Blockchain_BLOCKCHAIN_TRON:
+			recordAppender.AppendString(transaction.Memo)
+		}
+
+		recordAppender.AppendUint64(partition.GetPartitionByNumber(uint64(event.GetSequenceNum()), partitionBySize)).
 			AppendUint64(uint64(event.GetSequenceNum())).
 			Build()
 	}
