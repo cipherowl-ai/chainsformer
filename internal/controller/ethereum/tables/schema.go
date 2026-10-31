@@ -11,7 +11,7 @@ import (
 
 func newTransactionSchema(config *config.Config) *arrow.Schema {
 	f := xarrow.NewSchemaFactory()
-	transaction := f.NewSchema(
+	commonFields := []arrow.Field{
 		f.NewField("transaction_hash", arrow.BinaryTypes.String, "Hash of the transaction"),
 		f.NewField("transaction_index", arrow.PrimitiveTypes.Uint64, "Zero-based index of the transaction"),
 		f.NewField("block_hash", arrow.BinaryTypes.String, "Hash of the block where this transaction was in"),
@@ -32,10 +32,24 @@ func newTransactionSchema(config *config.Config) *arrow.Schema {
 		f.NewField("block", NewBlockDataType(), "The block containing this transaction"),
 		f.NewField("receipt", NewReceiptDataType(config), "The transaction receipt"),
 		f.NewField("traces", arrow.ListOf(newTraceDataType()), "The list of transaction traces"),
+	}
+
+	switch config.Blockchain() {
+	case common.Blockchain_BLOCKCHAIN_TRON:
+		commonFields = append(
+			commonFields,
+			f.NewField("memo", arrow.BinaryTypes.String, "The transaction memo (raw_data.data) as hex without a 0x prefix. Empty when the transaction carries none"),
+		)
+	}
+
+	commonFields = append(
+		commonFields,
 		f.NewField("_partition_by", arrow.PrimitiveTypes.Uint64, "Records with the same _partition_by value will be stored in the same s3 directory"),
 		f.NewField("_repartition_by_range", arrow.PrimitiveTypes.Uint64, "Records will be range partitioned base on the _repartition_by_range column"),
 	)
-	return transaction
+	return f.NewSchema(
+		commonFields...,
+	)
 }
 
 func newRawTransactionSchema() *arrow.Schema {
