@@ -1,0 +1,40 @@
+name: Test and build sidecar
+on:
+  pull_request:
+  push:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Install pinned checks
+        run: |
+          go install golang.org/x/tools/cmd/goimports@v0.16.1
+          go install github.com/kisielk/errcheck@v1.9.0
+          go install github.com/gordonklaus/ineffassign@v0.0.0-20230610083614-0e73809eb601
+      - name: Canonical checks and unit tests
+        run: |
+          make test
+          git diff --exit-code
+      - name: Build portable production artifact
+        run: |
+          make build-go-arm TARGET=cmd/server
+          sha256sum bin/server > bin/server.sha256
+          go version -m bin/server > bin/server.build.txt
+          printf '%s\n' "$GITHUB_SHA" > bin/source-commit.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: chainsformer-linux-arm64-${{ github.sha }}
+          path: |
+            bin/server
+            bin/server.sha256
+            bin/server.build.txt
+            bin/source-commit.txt
+          if-no-files-found: error

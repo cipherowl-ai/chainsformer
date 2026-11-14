@@ -7,6 +7,7 @@ import (
 )
 
 var Module = fx.Options(
+	fx.Provide(fx.Annotated{Group: "ethereum", Target: NewBlockTransactionsTable}),
 	fx.Provide(fx.Annotated{
 		Group:  "ethereum",
 		Target: NewTransactionsTable,

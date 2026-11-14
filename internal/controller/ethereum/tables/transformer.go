@@ -15,6 +15,12 @@ import (
 )
 
 func (t transactionsTable) transformTransactions(recordBuilder *array.RecordBuilder, block *chainstorageapi.EthereumBlock, partitionBySize uint64) error {
+	return t.transformTransactionsWithAppender(func() *xarrow.RecordAppender {
+		return xarrow.NewRecordAppender(recordBuilder)
+	}, block, partitionBySize)
+}
+
+func (t transactionsTable) transformTransactionsWithAppender(newAppender func() *xarrow.RecordAppender, block *chainstorageapi.EthereumBlock, partitionBySize uint64) error {
 	header := block.Header
 	if header == nil {
 		return xerrors.New("header is required")
@@ -26,7 +32,7 @@ func (t transactionsTable) transformTransactions(recordBuilder *array.RecordBuil
 	}
 
 	for _, transaction := range transactions {
-		recordAppender := xarrow.NewRecordAppender(recordBuilder)
+		recordAppender := newAppender()
 		recordAppender.AppendString(transaction.Hash).
 			AppendUint64(transaction.Index).
 			AppendString(transaction.BlockHash).
@@ -75,6 +81,10 @@ func (t transactionsTable) transformTransactions(recordBuilder *array.RecordBuil
 }
 
 func (t blocksTable) transformBlocks(recordBuilder *array.RecordBuilder, block *chainstorageapi.EthereumBlock, partitionBySize uint64) error {
+	return t.transformBlockWithAppender(xarrow.NewRecordAppender(recordBuilder), block, partitionBySize)
+}
+
+func (t blocksTable) transformBlockWithAppender(appender *xarrow.RecordAppender, block *chainstorageapi.EthereumBlock, partitionBySize uint64) error {
 	header := block.GetHeader()
 	if header == nil {
 		return xerrors.New("header is required")
@@ -85,7 +95,7 @@ func (t blocksTable) transformBlocks(recordBuilder *array.RecordBuilder, block *
 		return xerrors.Errorf("failed to convert total difficulty to decimal128 (hash=%v): %w", header.Hash, err)
 	}
 
-	ra := xarrow.NewRecordAppender(recordBuilder).
+	ra := appender.
 		AppendString(header.Hash).
 		AppendString(header.ParentHash).
 		AppendUint64(header.Number).
