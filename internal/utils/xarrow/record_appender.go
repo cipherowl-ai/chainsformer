@@ -7,16 +7,22 @@ import (
 
 type (
 	RecordAppender struct {
-		recordBuilder *array.RecordBuilder
-		index         int
+		field func(int) array.Builder
+		index int
 	}
 )
 
 func NewRecordAppender(recordBuilder *array.RecordBuilder) *RecordAppender {
 	return &RecordAppender{
-		recordBuilder: recordBuilder,
-		index:         0,
+		field: recordBuilder.Field,
+		index: 0,
 	}
+}
+
+// NewStructRecordAppender applies the same field mapping to a nested record.
+// The caller appends the parent struct validity before constructing the appender.
+func NewStructRecordAppender(builder *array.StructBuilder) *RecordAppender {
+	return &RecordAppender{field: builder.FieldBuilder}
 }
 
 func (a *RecordAppender) Build() {
@@ -88,7 +94,7 @@ func (a *RecordAppender) AppendBinary(value []byte) *RecordAppender {
 }
 
 func (a *RecordAppender) next() array.Builder {
-	builder := a.recordBuilder.Field(a.index)
+	builder := a.field(a.index)
 	a.index += 1
 	return builder
 }
