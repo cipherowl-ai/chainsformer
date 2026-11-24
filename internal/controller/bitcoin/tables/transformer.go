@@ -11,6 +11,12 @@ import (
 )
 
 func (t transactionsTable) transformTransactions(recordBuilder *array.RecordBuilder, block *chainstorageapi.BitcoinBlock, partitionBySize uint64) error {
+	return t.transformTransactionsWithAppender(func() *xarrow.RecordAppender {
+		return xarrow.NewRecordAppender(recordBuilder)
+	}, block, partitionBySize)
+}
+
+func (t transactionsTable) transformTransactionsWithAppender(newAppender func() *xarrow.RecordAppender, block *chainstorageapi.BitcoinBlock, partitionBySize uint64) error {
 	header := block.GetHeader()
 	if header == nil {
 		return xerrors.New("header is required")
@@ -22,7 +28,7 @@ func (t transactionsTable) transformTransactions(recordBuilder *array.RecordBuil
 	}
 
 	for _, transaction := range transactions {
-		xarrow.NewRecordAppender(recordBuilder).
+		newAppender().
 			AppendString(transaction.TransactionId). // DO NOT USE transaction.Hash.
 			AppendUint64(transaction.Size).
 			AppendUint64(transaction.VirtualSize).
@@ -54,12 +60,16 @@ func (t transactionsTable) transformTransactions(recordBuilder *array.RecordBuil
 }
 
 func (t blocksTable) transformBlocks(recordBuilder *array.RecordBuilder, block *chainstorageapi.BitcoinBlock, partitionBySize uint64) error {
+	return t.transformBlockWithAppender(xarrow.NewRecordAppender(recordBuilder), block, partitionBySize)
+}
+
+func (t blocksTable) transformBlockWithAppender(appender *xarrow.RecordAppender, block *chainstorageapi.BitcoinBlock, partitionBySize uint64) error {
 	header := block.GetHeader()
 	if header == nil {
 		return xerrors.New("header is required")
 	}
 
-	xarrow.NewRecordAppender(recordBuilder).
+	appender.
 		AppendString(header.Hash).
 		AppendUint64(header.Size).
 		AppendUint64(header.StrippedSize).

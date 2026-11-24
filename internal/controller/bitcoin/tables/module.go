@@ -5,6 +5,7 @@ import (
 )
 
 var Module = fx.Options(
+	fx.Provide(fx.Annotated{Group: "bitcoin", Target: NewBlockTransactionsTable}),
 	fx.Provide(fx.Annotated{
 		Group:  "bitcoin",
 		Target: NewTransactionsTable,
