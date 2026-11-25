@@ -51,6 +51,7 @@ func NewController(params ControllerParams) (Controller, error) {
 		common.Blockchain_BLOCKCHAIN_BITCOINCASH,
 		common.Blockchain_BLOCKCHAIN_DASH,
 		common.Blockchain_BLOCKCHAIN_DOGECOIN,
+		common.Blockchain_BLOCKCHAIN_LITECOIN,
 		common.Blockchain_BLOCKCHAIN_ZCASH:
 		return params.Bitcoin, nil
 	default:

@@ -31,7 +31,7 @@ func TestNewController(t *testing.T) {
 func TestNewController_UTXOServesBlockTransactions(t *testing.T) {
 	// TestConfigs covers only bitcoin, so build each UTXO chain's config here.
 	for _, configName := range []string{
-		"bitcoin-mainnet", "bitcoincash-mainnet", "dash-mainnet", "dogecoin-mainnet", "zcash-mainnet",
+		"bitcoin-mainnet", "bitcoincash-mainnet", "dash-mainnet", "dogecoin-mainnet", "litecoin-mainnet", "zcash-mainnet",
 	} {
 		t.Run(configName, func(t *testing.T) {
 			blockchain, network, err := config.ParseConfigName(configName)
