@@ -38,7 +38,7 @@ func (t transactionsTable) transformTransactionsWithAppender(newAppender func() 
 			AppendBool(transaction.IsCoinbase).
 			AppendUint64(transaction.Index).
 			AppendStruct(func(sa *xarrow.StructAppender) {
-				transformBlock(sa, header)
+				transformBlock(sa, block)
 			}).
 			AppendList(func(la *xarrow.ListAppender) {
 				transformInputs(la, transaction.Inputs)
@@ -82,7 +82,7 @@ func (t blocksTable) transformBlockWithAppender(appender *xarrow.RecordAppender,
 		AppendString(header.Bits).
 		AppendString(header.Difficulty).
 		AppendString(header.ChainWork).
-		AppendUint64(header.NumberOfTransactions).
+		AppendUint64(transactionCount(block)).
 		AppendString(header.PreviousBlockHash).
 		AppendString(header.NextBlockHash).
 		AppendList(func(la *xarrow.ListAppender) {
@@ -97,7 +97,8 @@ func (t blocksTable) transformBlockWithAppender(appender *xarrow.RecordAppender,
 	return nil
 }
 
-func transformBlock(sa *xarrow.StructAppender, header *chainstorageapi.BitcoinHeader) {
+func transformBlock(sa *xarrow.StructAppender, block *chainstorageapi.BitcoinBlock) {
+	header := block.GetHeader()
 	sa.AppendString(header.Hash).
 		AppendUint64(header.Size).
 		AppendUint64(header.StrippedSize).
@@ -110,9 +111,18 @@ func transformBlock(sa *xarrow.StructAppender, header *chainstorageapi.BitcoinHe
 		AppendString(header.Bits).
 		AppendString(header.Difficulty).
 		AppendString(header.ChainWork).
-		AppendUint64(header.NumberOfTransactions).
+		AppendUint64(transactionCount(block)).
 		AppendString(header.PreviousBlockHash).
 		AppendString(header.NextBlockHash)
+}
+
+// Nodes without getblock's nTx (Dogecoin Core) parse a count of 0, which no
+// real block has: it always holds a coinbase.
+func transactionCount(block *chainstorageapi.BitcoinBlock) uint64 {
+	if n := block.GetHeader().GetNumberOfTransactions(); n > 0 {
+		return n
+	}
+	return uint64(len(block.GetTransactions()))
 }
 
 func transformInputs(la *xarrow.ListAppender, inputs []*chainstorageapi.BitcoinTransactionInput) {

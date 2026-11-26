@@ -203,3 +203,26 @@ func combinedNativeFixture(count int) *chainstorageapi.NativeBlock {
 	}
 	return &chainstorageapi.NativeBlock{Block: &chainstorageapi.NativeBlock_Bitcoin{Bitcoin: block}}
 }
+
+// Dogecoin Core's getblock has no nTx, so the parsed header count is 0.
+func TestBlockTransactionsTable_ZeroHeaderCountFallsBackToTransactions(t *testing.T) {
+	native := combinedNativeFixture(3)
+	native.GetBitcoin().Header.NumberOfTransactions = 0
+	parser := sdkmocks.NewMockParser(gomock.NewController(t))
+	raw := newRawBitcoinBlockWithBlob(1024)
+	parser.EXPECT().ParseNativeBlock(gomock.Any(), raw).Return(native, nil).Times(1)
+	allocator := memory.NewCheckedAllocator(memory.DefaultAllocator)
+	defer allocator.AssertSize(t, 0)
+	builder := array.NewRecordBuilder(allocator, newBlockTransactionsSchema())
+	defer builder.Release()
+	require.NoError(t, (blockTransactionsTable{}).TransformBlock(context.Background(), raw, parser, builder, 100))
+	record := builder.NewRecord()
+	defer record.Release()
+
+	blocks := record.Column(0).(*array.Struct)
+	require.Equal(t, uint64(3), combinedField(blocks, "transaction_count").(*array.Uint64).Value(0))
+	txBlock := combinedField(record.Column(1).(*array.Struct), "block").(*array.Struct)
+	for row := 1; row < 4; row++ {
+		require.Equal(t, uint64(3), combinedField(txBlock, "transaction_count").(*array.Uint64).Value(row), "row %d", row)
+	}
+}
