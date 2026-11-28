@@ -24,7 +24,7 @@ import (
 )
 
 func TestBlockTransactionsTable_SchemaPreservesNativeRecords(t *testing.T) {
-	for _, chain := range []common.Blockchain{common.Blockchain_BLOCKCHAIN_ETHEREUM, common.Blockchain_BLOCKCHAIN_POLYGON} {
+	for _, chain := range []common.Blockchain{common.Blockchain_BLOCKCHAIN_ETHEREUM, common.Blockchain_BLOCKCHAIN_POLYGON, common.Blockchain_BLOCKCHAIN_TRON} {
 		t.Run(chain.String(), func(t *testing.T) {
 			cfg := newChainConfig(chain)
 			table := NewBlockTransactionsTable(internal.CommonTableParams{Params: fxparams.Params{Config: cfg, Metrics: tally.NoopScope}})
@@ -42,6 +42,12 @@ func TestBlockTransactionsTable_SchemaPreservesNativeRecords(t *testing.T) {
 			_, hasRoot := block.FieldByName("withdrawals_root")
 			require.Equal(t, chain == common.Blockchain_BLOCKCHAIN_ETHEREUM, hasWithdrawals)
 			require.Equal(t, hasWithdrawals, hasRoot)
+			tx := schema.Field(1).Type.(*arrow.StructType)
+			_, hasMemo := tx.FieldByName("memo")
+			require.Equal(t, chain == common.Blockchain_BLOCKCHAIN_TRON, hasMemo)
+			receipt, _ := tx.FieldByName("receipt")
+			_, hasFee := receipt.Type.(*arrow.StructType).FieldByName("energy_fee")
+			require.Equal(t, hasMemo, hasFee)
 		})
 	}
 }
@@ -50,7 +56,7 @@ func TestBlockTransactionsTable_SchemaPreservesNativeRecords(t *testing.T) {
 // nested receipts, logs, traces, uncle blocks and withdrawals). Literal checks
 // below independently protect the identity, direction and partition contracts.
 func TestBlockTransactionsTable_OneHeaderAndEveryTransaction(t *testing.T) {
-	for _, chain := range []common.Blockchain{common.Blockchain_BLOCKCHAIN_ETHEREUM, common.Blockchain_BLOCKCHAIN_POLYGON} {
+	for _, chain := range []common.Blockchain{common.Blockchain_BLOCKCHAIN_ETHEREUM, common.Blockchain_BLOCKCHAIN_POLYGON, common.Blockchain_BLOCKCHAIN_TRON} {
 		for _, count := range []int{0, 1, 3} {
 			t.Run(fmt.Sprintf("%s/%d_transactions", chain, count), func(t *testing.T) {
 				cfg := newChainConfig(chain)
@@ -105,6 +111,12 @@ func TestBlockTransactionsTable_OneHeaderAndEveryTransaction(t *testing.T) {
 					require.Equal(t, "0x2222222222222222222222222222222222222222", combinedField(transactions, "to_address").(*array.String).Value(row))
 					require.Equal(t, "987654321", combinedField(transactions, "value_string").(*array.String).Value(row))
 					require.Equal(t, uint64(12300), combinedField(transactions, "_partition_by").(*array.Uint64).Value(row))
+					if chain == common.Blockchain_BLOCKCHAIN_TRON {
+						require.Equal(t, "6d656d6f", combinedField(transactions, "memo").(*array.String).Value(row))
+						receipt := combinedField(transactions, "receipt").(*array.Struct)
+						require.Equal(t, uint64(113), combinedField(receipt, "fee").(*array.Uint64).Value(row))
+						require.Equal(t, uint64(157), combinedField(receipt, "energy_penalty_total").(*array.Uint64).Value(row))
+					}
 				}
 			})
 		}
@@ -173,8 +185,8 @@ func combinedNativeFixture(t *testing.T, count int) *chainstorageapi.NativeBlock
 	require.NoError(t, protojson.Unmarshal([]byte(`{
  "header": {"hash":"block-hash","parentHash":"parent-hash","number":"12345","nonce":"nonce","sha3Uncles":"uncles-root","logsBloom":"bloom","transactionsRoot":"transactions-root","stateRoot":"state-root","receiptsRoot":"receipts-root","miner":"0x3333333333333333333333333333333333333333","difficulty":"17","totalDifficulty":"123456789012345","size":"19","extraData":"extra","gasLimit":"21000000","gasUsed":"42001","timestamp":"2023-11-14T22:13:31Z","baseFeePerGas":"23","uncles":["uncle-hash"],"withdrawalsRoot":"withdrawals-root","withdrawals":[{"index":"29","validatorIndex":"31","address":"0x4444444444444444444444444444444444444444","amount":"37"}]},
  "uncles":[{"hash":"uncle-hash","parentHash":"uncle-parent","number":"12344","timestamp":"2023-11-14T22:13:30Z","miner":"uncle-miner","difficulty":"41","gasLimit":"43","gasUsed":"47","baseFeePerGas":"53"}],
- "transactions":[{"hash":"tx-0","index":"0","blockHash":"block-hash","blockNumber":"12345","blockTimestamp":"2023-11-14T22:13:31Z","from":"0x1111111111111111111111111111111111111111","to":"0x2222222222222222222222222222222222222222","nonce":"59","value":"987654321","gas":"61001","gasPrice":"67","input":"0xabcd","type":"2","maxFeePerGas":"71","maxPriorityFeePerGas":"73","priorityFeePerGas":"79",
- "receipt":{"transactionHash":"tx-0","transactionIndex":"0","blockHash":"block-hash","blockNumber":"12345","from":"receipt-from","to":"receipt-to","cumulativeGasUsed":"83","gasUsed":"89","contractAddress":"contract-address","logsBloom":"receipt-bloom","root":"receipt-root","type":"2","status":"1","effectiveGasPrice":"97","logs":[{"logIndex":"101","transactionHash":"tx-0","transactionIndex":"0","blockHash":"block-hash","blockNumber":"12345","address":"log-address","data":"0xcdef","topics":["topic-one","topic-two"],"removed":true}]},
+ "transactions":[{"hash":"tx-0","index":"0","blockHash":"block-hash","blockNumber":"12345","blockTimestamp":"2023-11-14T22:13:31Z","from":"0x1111111111111111111111111111111111111111","to":"0x2222222222222222222222222222222222222222","nonce":"59","value":"987654321","gas":"61001","gasPrice":"67","input":"0xabcd","type":"2","maxFeePerGas":"71","maxPriorityFeePerGas":"73","priorityFeePerGas":"79","memo":"6d656d6f",
+ "receipt":{"transactionHash":"tx-0","transactionIndex":"0","blockHash":"block-hash","blockNumber":"12345","from":"receipt-from","to":"receipt-to","cumulativeGasUsed":"83","gasUsed":"89","contractAddress":"contract-address","logsBloom":"receipt-bloom","root":"receipt-root","type":"2","status":"1","effectiveGasPrice":"97","fee":"113","netFee":"127","netUsage":"131","energyUsage":"137","energyFee":"139","originEnergyUsage":"149","energyUsageTotal":"151","energyPenaltyTotal":"157","logs":[{"logIndex":"101","transactionHash":"tx-0","transactionIndex":"0","blockHash":"block-hash","blockNumber":"12345","address":"log-address","data":"0xcdef","topics":["topic-one","topic-two"],"removed":true}]},
  "flattenedTraces":[{"transactionHash":"tx-0","transactionIndex":"0","blockHash":"block-hash","blockNumber":"12345","from":"trace-from","to":"trace-to","value":"103","input":"trace-input","output":"trace-output","type":"CALL","traceType":"call","callType":"delegatecall","gas":"107","gasUsed":"109","subtraces":"2","traceAddress":["3","5"],"error":"trace-error","status":"0","traceId":"trace-id"}]}]
  }`), block))
 	template := block.Transactions[0]
